@@ -1,6 +1,13 @@
+import os
+from dotenv import load_dotenv
 from langchain.schema.messages import HumanMessage, SystemMessage
 from app.vector_store import VectorStore
 from langchain_openai import ChatOpenAI
+
+load_dotenv()
+
+api_key = os.getenv("openai_api_key")
+api_base = os.getenv("openai_api_base")
 
 class RAGPipeline:
     def __init__(self,model_name="deepseek/deepseek-chat-v3-0324:free"):
@@ -8,8 +15,8 @@ class RAGPipeline:
         self.llm = ChatOpenAI(
             temperature=0.2,
             model_name=model_name,
-            openai_api_base="https://openrouter.ai/api/v1",
-            openai_api_key="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",
+            openai_api_base=api_base,
+            openai_api_key=api_key,
         )
 
         print("Loading vector store...")
