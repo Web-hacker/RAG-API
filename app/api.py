@@ -1,13 +1,12 @@
-# app/api.py
-
+import os
 from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
 import shutil
 from app.ingestion import clone_repo, ingest_repo_to_vector_db, ingest_file_to_vector_db
 from app.rag import RAGPipeline
 
-app = FastAPI()
 
+app = FastAPI()
 
 @app.get("/")
 def root():
@@ -17,6 +16,9 @@ def root():
 @app.post("/upload")
 async def upload_file(file: UploadFile = File(...)):
     file_location = f"data/{file.filename}"
+    if os.path.exists(file_location):
+        os.remove(file_location)
+
     with open(file_location, "wb") as f:
         shutil.copyfileobj(file.file, f)
     ingest_file_to_vector_db(file_location)
