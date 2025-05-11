@@ -36,14 +36,14 @@ This project relies on several Python libraries. To install the necessary depend
 
 
 ## How to Run
-1. Clone the Repository:
+### 1. Clone the Repository:
 Start by cloning this repository to your local machine:
 
 ```bash
 git clone https://github.com/your-username/rag-api.git
 cd rag-api
 ```
-2. Set Up Environment Variables:
+### 2. Set Up Environment Variables:
 Create a .env file in the root of the project and add the following environment variables:
 
 ```plaintext
@@ -51,7 +51,7 @@ OPENAI_API_KEY=your-openai-api-key
 ```
 If you're using any other external APIs or credentials, you should add them here as well.
 
-3. Install the dependencie
+### 3. Install the dependencie
 To install the required dependencies, create a virtual environment and run the following command:
 
 ```bash
@@ -59,7 +59,7 @@ pip install -r requirements.txt
 
 ```
 
-4. Run the API:
+### 4. Run the API:
 You can start the API server using Uvicorn (ASGI server):
 
 ```bash
@@ -68,58 +68,58 @@ uvicorn app.api:app --reload
 The API will be available at http://localhost:8000.
 
 ## API Endpoints
-1. Root Endpoint
-- Endpoint: /
-- Method: GET
-- Description: A simple health check endpoint that confirms the API is running.
-- Response:
+
+### 1. Root Endpoint
+- **Endpoint**: /
+- **Method**: GET
+- **Description**: A simple health check endpoint that confirms the API is running.
+- **Response**:
 ```json
 {
   "message": "GS RAG Agent is running!"
 }
 ```
-2. File Upload Endpoint
-- Endpoint: /upload
-- Method: POST
-- Description: Uploads a file and ingests its content into the vector database.
-- Request Body: multipart/form-data
-    - file: The file to be uploaded (PDF, Image, or Text).
--Response:
+### 2. File Upload Endpoint
+- **Endpoint**: /upload
+- **Method**: POST
+- **Description**: Uploads a file and ingests its content into the vector database.
+- **Request Body**: multipart/form-data
+    - **file**: The file to be uploaded (PDF, Image, or Text).
+- **Response**:
 ```json
 {
   "message": "File 'your-file.pdf' saved and ingested successfully."
 }
 ```
-3. Repo Clone & Ingest Endpoint
-- Endpoint: /clone
-- Method: POST
-- Description: Clones a GitHub repository and ingests its contents into the vector database.
-- Request Body:
+### 3. Repo Clone & Ingest Endpoint
+- **Endpoint**: /clone
+- **Method**: POST
+- **Description**: Clones a GitHub repository and ingests its contents into the vector database.
+- **Request Body**:
 ```json
 {
   "repo_url": "https://github.com/your/repo",
   "branch": "main"
 }
 ```
-- Response:
-
+- **Response**:
 ```json
 {
   "message": "Repo cloned and ingested successfully at 'path/to/repo'"
 }
 ```
 
-4. RAG Query Endpoint
-- Endpoint: /query
-- Method: POST
-- Description: Accepts a user query and returns an answer using the RAG pipeline.
-- Request Body:
+### 4. RAG Query Endpoint
+- **Endpoint**: /query
+- **Method**: POST
+- **Description**: Accepts a user query and returns an answer using the RAG pipeline.
+- **Request Body**:
 ```json
 {
   "query": "What is the capital of France?"
 }
 ```
-- Response:
+- **Response**:
 ```json
 {
   "answer": "The capital of France is Paris.",
@@ -159,25 +159,25 @@ curl -X 'POST' \
 ## Special Notes and Limitations
 
 ### Notes:
-- File Size: Large documents, especially PDFs and images, may take some time to process and extract text. Ensure the files are of manageable size for optimal performance.
+- **File Size**: Large documents, especially PDFs and images, may take some time to process and extract text. Ensure the files are of manageable size for optimal performance.
 
-- OCR Accuracy: For PDFs containing images (e.g., scanned documents), OCR may not always be perfect. It depends on the quality and clarity of the image.
+- **OCR Accuracy**: For PDFs containing images (e.g., scanned documents), OCR may not always be perfect. It depends on the quality and clarity of the image.
 
-- Indexing Limit: The current version of the system stores documents in-memory (or a file-based index). For large-scale deployments, additional optimization or storage strategies (e.g., a database) may be required.
+- **Indexing Limit**: The current version of the system stores documents in-memory (or a file-based index). For large-scale deployments, additional optimization or storage strategies (e.g., a database) may be required.
 
 ### Limitations:
-- OpenAI API: This project relies on OpenAI's GPT models. Ensure you have an API key and your usage is within the limits of the OpenAI API.
+- **OpenAI API**: This project relies on OpenAI's GPT models. Ensure you have an API key and your usage is within the limits of the OpenAI API.
 
-- Hardware Resources: Text embedding and search can be resource-intensive, especially for large documents and queries. Ensure the machine running this service has adequate memory and processing power.
+- **Hardware Resources**: Text embedding and search can be resource-intensive, especially for large documents and queries. Ensure the machine running this service has adequate memory and processing power.
 
 ### Future Improvements
-- Multi-language Support: Add support for documents in multiple languages, including automatic language detection.
+- **Multi-language Support**: Add support for documents in multiple languages, including automatic language detection.
 
-- Better Summarization: Implement hierarchical summarization techniques for more accurate and concise answers.
+- **Better Summarization**: Implement hierarchical summarization techniques for more accurate and concise answers.
 
-- Caching and Persistence: Implement caching mechanisms for frequent queries and document retrieval, reducing response times.
+- **Caching and Persistence**: Implement caching mechanisms for frequent queries and document retrieval, reducing response times.
 
-- Scaling: Deploy the system on a cloud platform for scaling and better performance.
+- **Scaling**: Deploy the system on a cloud platform for scaling and better performance.
 
 ## Contributing
 Feel free to contribute to this project by submitting issues or pull requests. If you'd like to improve the system, whether it's better performance, new features, or bug fixes, all contributions are welcome!
