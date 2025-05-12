@@ -33,4 +33,5 @@ pickle5==0.0.11  # to ensure compatibility with Python’s pickle (useful if you
 hashlib==0.3  # secure hash algorithms for file verification (already part of Python's standard lib)
 stat==1.0.0  # file status utilities (standard lib)
 shutil==1.0.0  # high-level file operations (standard lib)
+mangum
 
