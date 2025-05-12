@@ -34,6 +34,8 @@ class VectorStore:
         index (faiss.Index): FAISS index storing the vector embeddings.
         metadata (dict): Metadata about documents, including hash and content.
         doc_id_by_vector_idx (list): Mapping from vector index to document ID.
+
+        reserve_model = all-MiniLM-L6-v2
     """
 
     def __init__(self, index_path="index/index.faiss", meta_path="index/index.pkl", vector_map_path="index/vector_map.pkl"):
@@ -43,8 +45,8 @@ class VectorStore:
         self.index_path = index_path
         self.meta_path = meta_path
         self.vector_map_path = vector_map_path
-        self.model = SentenceTransformer("all-MiniLM-L6-v2")
-        self.index = faiss.IndexFlatL2(384)
+        self.model = SentenceTransformer("BAAI/bge-large-en-v1.5")
+        self.index = faiss.IndexFlatL2(1024)
         self.metadata = {}
         self.doc_id_by_vector_idx = []
 
