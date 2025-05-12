@@ -29,4 +29,3 @@ python-dotenv  # for environment variable management
 langchain-openai  # integration with OpenAI models in LangChain
 openai  # OpenAI API client
 mangum
-
