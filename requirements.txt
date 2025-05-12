@@ -1,6 +1,6 @@
 # Core Python dependencies
 fastapi
-uvicorn[standard]
+uvicorn
 
 # File and text processing
 PyMuPDF  # for PDF reading (imported as fitz)
