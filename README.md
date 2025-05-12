@@ -59,29 +59,38 @@ This project relies on several Python libraries. To install the necessary depend
 Start by cloning this repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/rag-api.git
-cd rag-api
+git clone https://github.com/Web-hacker/RAG-API.git
+cd RAG-API
 ```
-### 2. Set Up Environment Variables:
-Create a .env file in the root of the project and add the following environment variables:
+## 2. Set up DocumentStore and VectorStore directory:
+Create *data* and *index* directory by using following command:
+
+```bash
+mkdir data index
+```
+**data** directory: This is where uploaded documents and cloned github repos are going to be stored.
+**index** directory: This is where indexed vectorstore is going to be stored.
+
+### 3. Set Up Environment Variables:
+Create a *.env* file in the app folder of the project and add the following environment variables:
 
 ```plaintext
 OPENAI_API_KEY=your-openrouter-api-key
 ```
 If you're using any other external APIs or credentials, you should add them here as well.
 
-### 3. Install the dependencie
+### 4. Install the dependencie
 To install the required dependencies, create a virtual environment and run the following command:
 
 ```bash
 pip install -r requirements.txt
 
 ```
-### 4. Run the API:
-You can start the API server using Uvicorn (ASGI server):
+### 5. Run the API:
+You can start the API server using Uvicorn (ASGI server). Use this command when you're in RAG-API directory. Do not *cd* in *app directory*:
 
 ```bash
-uvicorn app.api:app --reload
+uvicorn app.api:app --reload-dir app
 ```
 The API will be available at http://localhost:8000.
 
