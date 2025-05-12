@@ -1,6 +1,4 @@
 """
-updated_vector_store.py
-
 This module defines the VectorStore class for managing document embeddings using FAISS
 and SentenceTransformers. It supports upserting documents (with change tracking via hashing),
 chunking content, storing vector-document mappings, and performing similarity searches.
