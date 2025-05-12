@@ -2,17 +2,21 @@
 
 ## Overview
 
-The **RAG API** is a powerful document retrieval and response generation system built using **LangChain**, **FAISS**, and **OpenAI's GPT** models. This API allows you to upload, index, search, and retrieve information from a variety of documents (PDF, images, text files, etc.). Once the relevant data is retrieved, it uses a language model to generate contextually accurate and informative responses based on the input query.
+The **RAG API** is a powerful document retrieval and response generation system built using **LangChain**, **FAISS**, and **Deepseek** model. This API allows you to upload, index, search, and retrieve information from a variety of documents (PDF, images, text files, etc.). Once the relevant data is retrieved, it uses a language model to generate contextually accurate and informative responses based on the input query.
 
 The RAG (Retrieval-Augmented Generation) architecture enhances the capabilities of traditional search engines by combining document retrieval with advanced text generation, ensuring responses are more informative and relevant.
 
 ### Key Features:
-- **Document Ingestion**: The API accepts various document formats, including PDF, images (via OCR), and text files.
+- **Document Ingestion**: The API accepts various document formats, including PDF, images, scanned files and text files.
 - **FAISS Indexing**: Utilizes FAISS for fast, efficient vector search.
-- **LangChain for Response Generation**: Integration with LangChain allows for generating answers based on retrieved documents using OpenAI's GPT models.
+- **LangChain for Response Generation**: Integration with LangChain allows for generating answers based on retrieved documents using Deepseek model.
 - **Flexible Document Processing**: Supports hybrid document extraction using both traditional text extraction and Optical Character Recognition (OCR) for image-based PDFs.
 
 ---
+
+## 📺 Project Demo
+
+Watch the full walkthrough and explanation on YouTube: [RAG API Project Demo](https://www.youtube.com/watch?v=qZ3hS1Bzc3I)
 
 ## Requirements
 
@@ -30,7 +34,7 @@ This project relies on several Python libraries. To install the necessary depend
 - `langchain` - For building and managing LLM-based applications.
 - `python-dotenv` - To manage environment variables.
 - `pydantic` - For data validation in FastAPI.
-- `openai` - To interact with OpenAI models for generation.
+- `openai` - To use functionality of ChatOpenAI() object.
 - `scikit-learn` - For additional utilities like cosine similarity.
 - `gitpython`, `shutil`, and `pathlib` - For repo management and file operations.
 
@@ -60,7 +64,7 @@ cd rag-api
 Create a .env file in the root of the project and add the following environment variables:
 
 ```plaintext
-OPENAI_API_KEY=your-openai-api-key
+OPENAI_API_KEY=your-openrouter-api-key
 ```
 If you're using any other external APIs or credentials, you should add them here as well.
 
@@ -71,7 +75,6 @@ To install the required dependencies, create a virtual environment and run the f
 pip install -r requirements.txt
 
 ```
-
 ### 4. Run the API:
 You can start the API server using Uvicorn (ASGI server):
 
@@ -179,7 +182,7 @@ curl -X 'POST' \
 - **Indexing Limit**: The current version of the system stores documents in-memory (or a file-based index). For large-scale deployments, additional optimization or storage strategies (e.g., a database) may be required.
 
 ### Limitations:
-- **OpenAI API**: This project relies on OpenAI's GPT models. Ensure you have an API key and your usage is within the limits of the OpenAI API.
+- **Openrouter API**: This project relies on Openrouter's hosted deepseek models. Ensure you have an API key and your usage is within the limits of the Openrouter API.
 
 - **Hardware Resources**: Text embedding and search can be resource-intensive, especially for large documents and queries. Ensure the machine running this service has adequate memory and processing power.
 
