@@ -4,8 +4,6 @@ import fitz  # PyMuPDF
 from PIL import Image
 import pytesseract
 import io
-import os
-import shutil
 from typing import List, Tuple
 
 # Set path to Tesseract OCR executable (required for Windows systems)
