@@ -16,7 +16,7 @@ The RAG (Retrieval-Augmented Generation) architecture enhances the capabilities 
 
 ## 📺 Project Demo
 
-Watch the full walkthrough and explanation on YouTube: [RAG API Project Demo](https://www.youtube.com/watch?v=qZ3hS1Bzc3I)
+Watch the full walkthrough and explanation on YouTube: [![RAG API Project Demo](https://img.youtube.com/vi/qZ3hS1Bzc3I/hqdefault.jpg)](https://www.youtube.com/watch?v=qZ3hS1Bzc3I)
 
 ## Requirements
 
