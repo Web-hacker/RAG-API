@@ -68,8 +68,8 @@ Create *data* and *index* directory by using following command:
 ```bash
 mkdir data index
 ```
-**data** directory: This is where uploaded documents and cloned github repos are going to be stored.
-**index** directory: This is where indexed vectorstore is going to be stored.
+- **data** directory: This is where uploaded documents and cloned github repos are going to be stored.
+- **index** directory: This is where indexed vectorstore is going to be stored.
 
 ### 3. Set Up Environment Variables:
 Create a *.env* file in the app folder of the project and add the following environment variables:
