@@ -28,6 +28,6 @@ pydantic  # for data validation (used in FastAPI)
 python-dotenv  # for environment variable management
 langchain-openai  # integration with OpenAI models in LangChain
 openai  # OpenAI API client
-pickle5  # to ensure compatibility with Python’s pickle (useful if you're working with legacy versions)
+pickle  # to ensure compatibility with Python’s pickle (useful if you're working with legacy versions)
 mangum
 
