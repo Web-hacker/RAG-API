@@ -1,0 +1,31 @@
+# Core Python dependencies
+fastapi
+uvicorn
+
+# File and text processing
+PyMuPDF  # for PDF reading (imported as fitz)
+pytesseract
+Pillow  # for image processing (PIL)
+python-multipart  # for file uploads in FastAPI
+pandas
+pdf2image # if needed for alternate PDF to image conversion (optional)
+opencv-python-headless # optional, in case of advanced image OCR needs
+
+# Vector stores and LLM support
+langchain
+faiss-cpu  # for vector similarity search
+transformers
+sentence-transformers
+accelerate  # for optimizing HF models
+torch  # required for transformers and sentence-transformers
+scikit-learn  # used internally by some embedding models
+
+# For file and repo management (optional but safe)
+gitpython  # if loading repos directly
+
+# Additional dependencies
+pydantic  # for data validation (used in FastAPI)
+python-dotenv  # for environment variable management
+langchain-openai  # integration with OpenAI models in LangChain
+openai  # OpenAI API client
+mangum

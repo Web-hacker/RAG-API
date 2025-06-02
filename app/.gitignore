@@ -1,0 +1,59 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints
+
+# VS Code settings
+.vscode/
+
+# Model & Index Files ( HuggingFace caches, etc.)
+*.bin
+*.safetensors
+*.onnx
+index.*
+*.h5
+*.ckpt
+
+# Cached data & HuggingFace files
+cache/
+*.jsonl
+*.log
+*.sqlite
+*.db
+*.tfrecord
+*.gz
+*.zip
+*.tar
+*.tar.gz
+*.msgpack
+*.arrow
+hf_cache/
+huggingface/
+~/.cache/huggingface
+
+# OS or tool specific files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Streamlit specific
+.streamlit/config.toml
+.streamlit/secrets.toml
+
+
+# Markdown previews / PDF artifacts
+*.pdf
+*.docx
+*.md~
+
+# dotenv (env vars)
+.env
