@@ -57,3 +57,5 @@ desktop.ini
 
 # dotenv (env vars)
 .env
+data/*
+index/*
