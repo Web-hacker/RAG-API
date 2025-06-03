@@ -86,18 +86,18 @@ if page == " Chat with Chatbot":
 # -----------------------
 # 2. Github Token Page 
 # -----------------------
-elif page == " Github Token":
-    st.title(" Share your github token.")
+# elif page == " Github Token":
+#     st.title(" Share your github token.")
 
-    user_github_token = st.chat_input("Enter github token...")
+#     user_github_token = st.chat_input("Enter github token...")
     
-    if user_github_token:
-        with st.spinner("Uploading..."):
-            try:
-                response = requests.post("http://localhost:8000/token", json={"Github_token": user_github_token})
-                st.success(response.json()["message"])
-            except Exception as e:
-                st.error(f"Upload failed: {e}")
+#     if user_github_token:
+#         with st.spinner("Uploading..."):
+#             try:
+#                 response = requests.post("http://localhost:8000/token", json={"Github_token": user_github_token})
+#                 st.success(response.json()["message"])
+#             except Exception as e:
+#                 st.error(f"Upload failed: {e}")
 
 
 

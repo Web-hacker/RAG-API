@@ -10,7 +10,9 @@ from typing import List, Tuple
 pytesseract.pytesseract.tesseract_cmd = r"C:/Program Files/Tesseract-OCR/tesseract.exe"
 
 
-def hybrid_pdf_extraction(pdf_path: str, ocr_threshold: int = 30) -> str:
+def hybrid_pdf_extraction(doc,
+        # pdf_path: str ,
+          ocr_threshold: int = 30) -> str:
     """
     Extracts text from PDFs using direct text extraction first. Falls back to OCR if not enough text is found.
     
@@ -21,7 +23,7 @@ def hybrid_pdf_extraction(pdf_path: str, ocr_threshold: int = 30) -> str:
     Returns:
     - Combined text extracted using both methods.
     """
-    doc = fitz.open(pdf_path)
+    # doc = fitz.open(pdf_path)
     complete_text = ""
 
     for page_num in range(len(doc)):
@@ -63,7 +65,9 @@ def chunk_text(text: str, max_tokens: int = 500, overlap: int = 100) -> List[str
 
     return chunks
 
-def extract_text_from_image(path: str) -> str:
+def extract_text_from_image(img
+                            # ,path: str
+                            ) -> str:
     """
     Uses OCR to extract text from an image file.
 
@@ -74,10 +78,10 @@ def extract_text_from_image(path: str) -> str:
     - Extracted text.
     """
     try:
-        img = Image.open(path)
+        # img = Image.open(path)
         return pytesseract.image_to_string(img)
     except Exception as e:
-        print(f"Failed to process image {path}: {e}")
+        print(f"Failed to process image {img}: {e}")
         return ""
 
 def load_text_files_from_dir(

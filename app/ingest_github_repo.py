@@ -1,8 +1,10 @@
 import requests
 import os
 import json
+from pathlib import Path
 from typing import List
 from app.vectore_store import VectorStore
+from app.utils import hybrid_pdf_extraction,extract_text_from_image
 
 COMMIT_FILE = "data/last_commit.json"
 
@@ -63,7 +65,7 @@ def ingest_changed_files(repo_url: str, branch: str = "main"):
         tree_res.raise_for_status()
         changed_files = [f["path"] for f in tree_res.json().get("tree", []) if f["type"] == "blob"]
         deleted_files = []
-        print(changed_files)
+        # print(changed_files)
 
     # Handle deleted files
     for path in deleted_files:
@@ -75,6 +77,19 @@ def ingest_changed_files(repo_url: str, branch: str = "main"):
         
         raw_url = f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{path}"
         content_res = requests.get(raw_url)
+        # if(path.suffix().lower()==):
+        # ext=Path(path).suffix().lower()
+        ext = path[path.rfind('.'):].lower() if '.' in path else ''
+        # print(content_res.status_code)
+        print(ext)
+        if ext== ".pdf":
+            # print(content_res.text)
+            content_res.text=hybrid_pdf_extraction(content_res.content)
+        elif ext in {".png", ".jpg", ".jpeg", ".gif" }:
+            continue
+        #     print(content_res.content)
+        #     content_res.text=extract_text_from_image(content_res.content)
+
         # print(content_res.text)
         if content_res.status_code == 200 and len(content_res.text):
             print(f"Re-ingesting file: {path}")
