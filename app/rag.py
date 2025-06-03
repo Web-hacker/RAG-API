@@ -46,9 +46,9 @@ from dotenv import load_dotenv
 
 from langchain.schema.messages import HumanMessage, SystemMessage
 from langchain_openai import ChatOpenAI
-from langchain_google_genai import ChatGoogleGenerativeAI
+# from langchain_google_genai import ChatGoogleGenerativeAI
 
-from app.updated_vector_store import VectorStore
+from app.vectore_store import VectorStore
 
 # Load environment variables from .env file
 env_path = Path(__file__).parent / ".env"
@@ -85,7 +85,7 @@ class RAGPipeline:
 
         print("Loading vector store...")
         self.vs = VectorStore()
-        self.vs.load()
+        self.vs._load_or_initialize_index()
         print("Vector store loaded...")
 
     def run(self, query: str, k: int = 5) -> dict:

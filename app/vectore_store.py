@@ -9,15 +9,15 @@ import os
 import hashlib
 from pathlib import Path
 from typing import List, Tuple, Dict
-from sentence_transformers import SentenceTransformer
+# from sentence_transformers import SentenceTransformer
 import numpy as np
 
 from dotenv import load_dotenv
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from app.utils import chunk_text
 
-#env_path = Path(__file__).parent / ".env"
-#load_dotenv(dotenv_path=env_path)
+env_path = Path(__file__).parent / ".env"
+load_dotenv(dotenv_path=env_path)
 
 class VectorStore:
     def __init__(
@@ -27,17 +27,17 @@ class VectorStore:
     ):
 
         print("VectorStore: Initializing...")
-        #api_key = os.getenv("GOOGLE_API_KEY")
-        #if not api_key:
-        #    raise EnvironmentError("GOOGLE_API_KEY not found in environment variables")
-        #os.environ["GOOGLE_API_KEY"] = api_key
+        api_key = os.getenv("GOOGLE_API_KEY")
+        if not api_key:
+           raise EnvironmentError("GOOGLE_API_KEY not found in environment variables")
+        os.environ["GOOGLE_API_KEY"] = api_key
 
         self.index_path = index_path
         self.meta_path = meta_path
         print("Loading embedding model...")
-        self.model = SentenceTransformer("BAAI/bge-large-en-v1.5")
+        # self.model = SentenceTransformer("BAAI/bge-large-en-v1.5")
+        self.model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
         print("Embedding model loaded.")
-        #self.model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
         self.index = None
         self.metadata: Dict[str, dict] = {}
@@ -52,7 +52,9 @@ class VectorStore:
             self.index = faiss.read_index(self.index_path)
         else:
             print("Creating new FAISS index...")
-            sample_vec = self.model.encode(["sample"], convert_to_numpy=True)
+            sample_vec = self.model.embed_documents(["sample"]
+                                                    # , convert_to_numpy=True
+                                                    )
             dim = len(sample_vec[0])
             self.index = faiss.IndexIDMap(faiss.IndexFlatL2(dim))
 
@@ -67,43 +69,47 @@ class VectorStore:
         print(f"[ERROR] Failed to initialize FAISS index: {e}")
 
 
-    def get_file_hash(self, file_path: str) -> str:
-        sha256_hash = hashlib.sha256()
-        with open(file_path, "rb") as f:
-            for block in iter(lambda: f.read(4096), b""):
-                sha256_hash.update(block)
-        return sha256_hash.hexdigest()
+    # def get_file_hash(self, file_path: str) -> str:
+    #     sha256_hash = hashlib.sha256()
+    #     with open(file_path, "rb") as f:
+    #         for block in iter(lambda: f.read(4096), b""):
+    #             sha256_hash.update(block)
+    #     return sha256_hash.hexdigest()
 
     def _generate_faiss_ids(self, count: int) -> List[int]:
         base = self.index.ntotal
         return list(range(base, base + count))
 
-    def upsert(self, doc_id: str, file_path: str, content: str):
-        content_hash = self.get_file_hash(file_path)
+    def upsert(self, doc_id: str, 
+            #    file_path: str,
+                 content: str):
+        # content_hash = self.get_file_hash(file_path)
 
-        if doc_id in self.metadata and self.metadata[doc_id]["content_hash"] == content_hash:
-            print(f"[{doc_id}] Skipping: No changes.")
-            return
-        elif doc_id in self.metadata:
-            print(f"[{doc_id}] Updating existing document...")
-        else:
-            print(f"[{doc_id}] Adding new document...")
-
+        # if doc_id in self.metadata and self.metadata[doc_id]["content_hash"] == content_hash:
+        #     print(f"[{doc_id}] Skipping: No changes.")
+        #     return
+        # elif doc_id in self.metadata:
+        #     print(f"[{doc_id}] Updating existing document...")
+        # else:
+        #     print(f"[{doc_id}] Adding new document...")
+        # print(content)
         chunks = chunk_text(content)
-        embeddings = self.model.encode(chunks, convert_to_numpy=True)
+        embeddings = self.model.embed_documents(chunks
+                                                # , convert_to_numpy=True
+                                                )
         faiss_ids = self._generate_faiss_ids(len(embeddings))
-
         self.index.add_with_ids(np.array(embeddings, dtype="float32"), np.array(faiss_ids))
+        
         for fid in faiss_ids:
             self.doc_id_by_faiss_id[fid] = doc_id
 
         self.metadata[doc_id] = {
-            "content_hash": content_hash,
+            # "content_hash": content_hash,
             "content": content,
             "chunks": chunks,
             "faiss_ids": faiss_ids
         }
-
+        # print(faiss_ids)
         self.save()
         print(f"[{doc_id}] Upsert complete.")
 
@@ -113,7 +119,7 @@ class VectorStore:
             self.upsert(doc_id, file_path, content)
 
     def search(self, query: str, k: int = 5) -> List[Dict[str, str]]:
-        query_vec = self.model.encode([query], convert_to_numpy=True)[0]
+        query_vec = self.model.embed_query(query)
         D, I = self.index.search(np.array([query_vec], dtype="float32"), k)
 
         results = []
@@ -138,3 +144,18 @@ class VectorStore:
                 "metadata": self.metadata,
                 "faiss_id_map": self.doc_id_by_faiss_id
             }, f)
+
+    def remove_document(self, doc_id: str):
+        if doc_id not in self.metadata:
+            print(f"[{doc_id}] Not found in index. Skipping removal.")
+            return
+
+        faiss_ids = self.metadata[doc_id]["faiss_ids"]
+        self.index.remove_ids(np.array(faiss_ids, dtype="int64"))
+        for fid in faiss_ids:
+            self.doc_id_by_faiss_id.pop(fid, None)
+        self.metadata.pop(doc_id, None)
+
+        self.save()
+        print(f"[{doc_id}] Removed from vector store.")
+

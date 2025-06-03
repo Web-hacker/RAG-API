@@ -8,7 +8,7 @@ st.set_page_config(page_title="RAG Agent", layout="wide")
 st.sidebar.title("API Endpoints")
 page = st.sidebar.radio(
     "Choose an option:",
-    (" Chat with Chatbot", " Github Token", " Clone Repo")
+    (" Chat with Chatbot", " Github Token", " Ingest Repo")
 )
 
 # -----------------------
@@ -108,7 +108,7 @@ button = st.sidebar.button("Sync with latest version of Documentation.")
 if button:
     with st.spinner("Syncing..."):
         try:
-            res = requests.post("http://localhost:4000/upsert")
+            res = requests.post("http://localhost:8000/sync")
             print(res.json())
             st.sidebar.success("Synced successfully")
         except Exception as e:
@@ -131,16 +131,16 @@ if button:
 # -----------------------
 # 3. Repo Clone
 # -----------------------
-elif page == " Clone Repo":
-    st.title(" Clone GitHub Repo for Embedding in Vector Database.")
+elif page == " Ingest Repo":
+    st.title(" Ingest GitHub Repo for Embedding in Vector Database.")
 
     repo_url = st.text_input("GitHub Repo URL")
     branch = st.text_input("Branch", value="main")
 
-    if st.button("Clone and Ingest"):
-        with st.spinner("Cloning..."):
+    if st.button("Ingest"):
+        with st.spinner("Upserting..."):
             try:
-                res = requests.post("http://localhost:8000/clone", json={"repo_url": repo_url, "branch": branch})
+                res = requests.post("http://localhost:8000/ingest", json={"repo_url": repo_url, "branch": branch})
                 res.raise_for_status()
                 st.success(res.json()["message"])
             except Exception as e:
